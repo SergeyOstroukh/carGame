@@ -2,41 +2,39 @@
     let isPause = false
     let animationId = null
 
+    const speed = 3
 
     const car = document.querySelector('.car')
     const trees = document.querySelectorAll('.tree')
     
-    const first = trees[0]
-    console.log(getYCord(first));
-    
-    // const matrix = window.getComputedStyle(first).transform
-    // const matrixElements = matrix.split(',')
-    // const lastMtrElement = matrixElements[matrixElements.length - 1]
-    // const cordY = 
-    // console.log(lastMtrElement);
-    
-    
-    function getYCord(element){
-        const matrix = window.getComputedStyle(first).transform
-        const matrixElements = matrix.split(',')
-        const lastMtrElement = matrixElements[matrixElements.length - 1]
-        const cordY = parseFloat(lastMtrElement)
-
-        return cordY
-    }
-    
-    
+    const firstTree = trees[0]
 
     animationId = requestAnimationFrame(startGame)
-
+    
     function startGame () {
-        // console.log('test', animationId);
+        treesAnimation()
 
         animationId = requestAnimationFrame(startGame)
         
     }
 
 
+    function treesAnimation () {
+        const newCord = getYCord(firstTree) + speed
+        firstTree.style.transform = `translateY(${newCord}px)`
+    } 
+    
+
+    
+
+    function getYCord(element){
+        const matrix = window.getComputedStyle(element).transform
+        const matrixElements = matrix.split(',')
+        const lastMtrElement = matrixElements[matrixElements.length - 1]
+        const cordY = parseFloat(lastMtrElement)
+
+        return cordY
+    }
 
     const gameButton = document.querySelector('.game-button')
     gameButton.addEventListener('click', ()=> {
