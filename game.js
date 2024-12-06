@@ -10,6 +10,9 @@
     const firstTree = trees[0]
 
     animationId = requestAnimationFrame(startGame)
+
+    const coordsTree1 = getCords(firstTree)
+    
     
     function startGame () {
         treesAnimation()
@@ -20,20 +23,22 @@
 
 
     function treesAnimation () {
-        const newCord = getYCord(firstTree) + speed
-        firstTree.style.transform = `translateY(${newCord}px)`
+
+        const newCordY = coordsTree1[0] + speed
+        coordsTree1[0] = newCordY
+        firstTree.style.transform = `translate(${coordsTree1[1]}px, ${newCordY}px)`; 
     } 
     
 
-    
-
-    function getYCord(element){
+    function getCords(element){
         const matrix = window.getComputedStyle(element).transform
         const matrixElements = matrix.split(',')
-        const lastMtrElement = matrixElements[matrixElements.length - 1]
-        const cordY = parseFloat(lastMtrElement)
+        const yElement = matrixElements[matrixElements.length - 1]
+        const xElement = matrixElements[matrixElements.length - 2]
+        const cordY = parseFloat(yElement)
+        const cordX = parseFloat(xElement)
 
-        return cordY
+        return [cordY, cordX]
     }
 
     const gameButton = document.querySelector('.game-button')
@@ -44,7 +49,7 @@
             gameButton.children[0].style.display = 'none'
             gameButton.children[1].style.display = 'initial'
         }else {
-            
+            animationId = requestAnimationFrame(startGame)
             gameButton.children[0].style.display = 'initial'
             gameButton.children[1].style.display = 'none'
         }
